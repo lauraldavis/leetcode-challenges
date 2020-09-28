@@ -15,95 +15,28 @@ package com.leetcode.practice;
 // C can be placed before D (500) and M (1000) to make 400 and 900.
 // Given a roman numeral, convert it to an integer. Input is within the range 1 to 3999.
 
+import java.util.HashMap;
+
 public class RomanToInteger {
     static int romanToInt(String s) {
-        int sum = 0;
-        String one = "I";
-        String four = "IV";
-        String five = "V";
-        String nine = "IX";
-        String ten = "X";
-        String forty = "XL";
-        String fifty = "L";
-        String ninety = "XC";
-        String oneHundred = "C";
-        String fourHundred = "CD";
-        String fiveHundred = "D";
-        String nineHundred = "CM";
-        String oneThousand = "M";
-        String blank = "";
+        HashMap<Character, Integer> map = new HashMap<>();
+        map.put('Z',0);
+        map.put('I',1);
+        map.put('V',5);
+        map.put('X',10);
+        map.put('L',50);
+        map.put('C',100);
+        map.put('D',500);
+        map.put('M',1000);
+        int total = 0;
 
-        while (!s.isEmpty()){
-            while (s.contains(four)){
-                sum += 4;
-                String parsed = s.replaceFirst(four,blank);
-                s = parsed;
-            }
-            while(s.contains(nine)){
-                sum += 9;
-                String parsed = s.replaceFirst(nine,blank);
-                s = parsed;
-            }
-            while(s.contains(forty)){
-                sum += 40;
-                String parsed = s.replaceFirst(forty,blank);
-                s = parsed;
-            }
-            while(s.contains(ninety)){
-                sum += 90;
-                String parsed = s.replaceFirst(ninety,blank);
-                s = parsed;
-            }
-            while(s.contains(fourHundred)){
-                sum += 400;
-                String parsed = s.replaceFirst(fourHundred,blank);
-                s = parsed;
-            }
-            while(s.contains(nineHundred)){
-                sum += 900;
-                String parsed = s.replaceFirst(nineHundred,blank);
-                s = parsed;
-            }
-            while(s.contains(one)){
-                sum += 1;
-                String parsed = s.replaceFirst(one,blank);
-                s = parsed;
-            }
-            while(s.contains(five)){
-                sum += 5;
-                String parsed = s.replaceFirst(five,blank);
-                s = parsed;
-            }
-            while(s.contains(ten)){
-                sum += 10;
-                String parsed = s.replaceFirst(ten,blank);
-                s = parsed;
-            }
-            while(s.contains(fifty)){
-                sum += 50;
-                String parsed = s.replaceFirst(fifty,blank);
-                s = parsed;
-            }
-            while(s.contains(oneHundred)){
-                sum += 100;
-                String parsed = s.replaceFirst(oneHundred,blank);
-                s = parsed;
-            }
-            while(s.contains(fiveHundred)){
-                sum += 500;
-                String parsed = s.replaceFirst(fiveHundred,blank);
-                s = parsed;
-            }
-            while(s.contains(oneThousand)){
-                sum += 1000;
-                String parsed = s.replaceFirst(oneThousand,blank);
-                s = parsed;
-            }
+        s = s + "Z";
+        for(int i = s.length(); i > 1; i--) {
+            int current = map.get(s.charAt(i-1));
+            int previous = map.get(s.charAt(i-2));
+            total = total + (current <= previous ? previous : -previous);
         }
-        return sum;
+        return total;
     }
 
-    public static void main(String[] args) {
-        System.out.println(romanToInt("LVIII"));
-    }
 }
